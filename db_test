@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DB_NAME="sensehat_log.db"
+EXEC_STMNT="sqlite3 -header -column $DB_NAME"
+
+echo "Resetting database..."
+echo
+
+rm $DB_NAME
+
+echo "Deleted previous db..."
+
+./databaseOps.py
+echo
+
+echo "--Database test--"
+$EXEC_STMNT ".read db_statements/db_insert.sql"
+$EXEC_STMNT "SELECT * FROM data_entry"
+$EXEC_STMNT "DELETE FROM data_entry"
+echo "-----------------"
+echo
