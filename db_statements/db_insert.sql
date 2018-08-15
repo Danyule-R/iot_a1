@@ -1,2 +1,2 @@
-INSERT INTO data_entry(temp, humid, time)
-VALUES ('100', '500', "test");
+INSERT INTO data_entry(temp, humidity, pressure, time)
+VALUES ('100', '500', '200', "test");

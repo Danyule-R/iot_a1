@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DB_NAME="sensehat_log.db"
+DB_NAME="weather_database/sensehat_log.db"
 EXEC_STMNT="sqlite3 -header -column $DB_NAME"
 
 echo "Resetting database..."
@@ -10,7 +10,7 @@ rm $DB_NAME
 
 echo "Deleted previous db..."
 
-./databaseOps.py
+./scripts/databaseOps.py
 echo
 
 echo "--Database test--"
