@@ -5,6 +5,8 @@ from datetime import datetime
 import os
 import json
 
+PATH = "/home/pi/a1/"
+DB_NAME = PATH+"weather_database/sensehat_log.db" 
 
 def get_sense_data():
 	
@@ -39,18 +41,18 @@ def insertIntoDatabase(sqlite_file,data):
 	try:
 		c.execute("INSERT INTO data_entry(temp, humidity, pressure, time) VALUES(?,?,?,?)",(temp,humid,press,time))
 		conn.commit()
+		conn.close()
 	except sqlite3.Error as e:
 		print(e)
-	conn.close()
+		conn.close()
 
 
 #start program
 def main():
-	db_name = "weather_database/sensehat_log.db" 
 	data = get_sense_data()
-
 	if data is not None:
-		insertIntoDatabase(db_name, data)
+		print("Added entry")
+		insertIntoDatabase(DB_NAME, data)
 
 main()
 
