@@ -1,7 +1,7 @@
 import sqlite3
 app.database = "sensehat_log.db"
 
-@app.route('/weatherlogger')
+@app.route('weather_database/sensehat_log.db')
 def weatherdata():
     g.db = connect.db()
     cur = g.db.execute('SELECT * from data_entry')
