@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import pushBulletNotify
 import sqlite3
 from sense_hat import SenseHat
 from datetime import datetime
@@ -20,6 +21,9 @@ def get_sense_data():
 
 	calibrated_temp = round((cpu_temp-sense.get_temperature()),1)
 
+	if(calibrated_temp<20):
+		pushBulletNotify.send(calibrated_temp)
+		
 	data.append(calibrated_temp)
 	data.append(round(sense.get_humidity(),1))
 	data.append(round(sense.get_pressure(),1))
@@ -35,9 +39,9 @@ def insertIntoDatabase(sqlite_file,data):
 	temp = data[0]
 	humid = data[1]
 	press = data[2]
-	time = str(datetime.now())
+	time = datetime.now()
+	time = time.strftime('%H:%M:%S %d/%m/%Y')
 
-	
 	try:
 		c.execute("INSERT INTO data_entry(temp, humidity, pressure, time) VALUES(?,?,?,?)",(temp,humid,press,time))
 		conn.commit()
@@ -51,7 +55,6 @@ def insertIntoDatabase(sqlite_file,data):
 def main():
 	data = get_sense_data()
 	if data is not None:
-		print("Added entry")
 		insertIntoDatabase(DB_NAME, data)
 
 main()

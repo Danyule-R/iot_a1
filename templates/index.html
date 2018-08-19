@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<body>
+		<head>
+			<link rel="stylesheet" type="text/css" href="stylesheet.css">
+		</head>	
+
+		<h1>Weather Data</h1>
+		
+		<table border = 1>
+			<thead>
+				<td>ID</td>
+				<td>Temperature</td>
+				<td>Humidity</td>
+				<td>Pressure</td>
+				<td>Time</td>
+			</thead>
+
+		{% for row in rows %}
+			<tr>
+				<td>{{row["id"]}}</td>
+				<td>{{row["temp"]}}</td>
+				<td>{{row["humidity"]}}</td>
+				<td>{{row["pressure"]}}</td>
+				<td>{{row["time"]}}</td>
+			</tr>
+		{% endfor %}
+		</table>
+
+	</body>
+</html>
