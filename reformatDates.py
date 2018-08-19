@@ -7,7 +7,7 @@ import os
 import json
 
 PATH = "/home/pi/a1/"
-DB_NAME = PATH+"weather_database/sensehat_log.db" 
+DB_NAME = PATH+"weather_database/test.db" 
 
 conn = sqlite3.connect(DB_NAME)
 c = conn.cursor()
@@ -15,21 +15,22 @@ c = conn.cursor()
 try:
 
     c.execute("SELECT time FROM data_entry")
-    c.execute("SELECT COUNT(*) FROM users")
+
     rows = c.fetchall()
 
     for row in rows:
         
         row = str(row)
         print(row)
-#         entry = row.replace("('","")
-#         entry = entry.replace("',)","")
-#         # c.execute("UPDATE users SET time=? WHERE time=?",(entry,str(d)))
+        entry = row.replace("('","")
+        entry = entry.replace("',)","")
+        c.execute("UPDATE users SET time=? WHERE time=?",(entry,str(d)))
 
-#         d = datetime.strptime(str(entry), '%Y-%m-%d %H:%M:%S.%f')
+        d = datetime.strptime(str(entry), '%Y-%m-%d %H:%M:%S.%f')
 
-#         print(d.strftime('%H:%M:%S %d/%m/%Y'))
-    conn.close()
+        print(d.strftime('%H:%M:%S %d/%m/%Y'))
+
+        conn.close()
 
 except sqlite3.Error as e:
     print(e)
