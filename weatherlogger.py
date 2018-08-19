@@ -39,7 +39,8 @@ def insertIntoDatabase(sqlite_file,data):
 	temp = data[0]
 	humid = data[1]
 	press = data[2]
-	time = str(datetime.now())
+	time = datetime.now()
+	time = time.strftime('%H:%M:%S %d/%m/%Y')
 
 	try:
 		c.execute("INSERT INTO data_entry(temp, humidity, pressure, time) VALUES(?,?,?,?)",(temp,humid,press,time))

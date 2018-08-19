@@ -13,7 +13,7 @@ def weatherdata():
     cur = con.cursor()
     cur.execute('SELECT * from data_entry')
 
-    rows = cur.fetchall();
+    rows = cur.fetchall()
     
     return render_template("/index.html", rows = rows)
 

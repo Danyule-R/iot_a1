@@ -15,7 +15,7 @@ def main():
     users = getRegisteredUsers()
     while True:
         search(users)
-        time.sleep(30)
+        time.sleep(60)
 
 
 def getRegisteredUsers():
