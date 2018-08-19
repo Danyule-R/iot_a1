@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import pushBulletNotify
 import sqlite3
 from sense_hat import SenseHat
 from datetime import datetime
@@ -20,6 +21,9 @@ def get_sense_data():
 
 	calibrated_temp = round((cpu_temp-sense.get_temperature()),1)
 
+	if(calibrated_temp<20):
+		pushBulletNotify.send(calibrated_temp)
+		
 	data.append(calibrated_temp)
 	data.append(round(sense.get_humidity(),1))
 	data.append(round(sense.get_pressure(),1))
