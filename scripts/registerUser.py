@@ -9,7 +9,6 @@ def addEntry(userName, macAddress):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
 
-
     try:
         c.execute("INSERT INTO users(name, mac_address) VALUES(?,?)",(userName,macAddress))
         conn.commit()
