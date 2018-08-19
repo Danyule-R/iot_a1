@@ -1,4 +1,6 @@
 import sqlite3
+
+app = Flask(__name__)
 app.database = "sensehat_log.db"
 
 @app.route('weather_database/sensehat_log.db')
