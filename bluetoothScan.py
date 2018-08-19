@@ -8,36 +8,48 @@ from sense_hat import SenseHat
 
 PATH = "/home/pi/a1/"
 DB_NAME = PATH+"weather_database/sensehat_log.db" 
+sense = SenseHat()
 
 # Main function
 def main():
-    # user_name = input("Enter your name: ")
-    # device_name = input("Enter the name of your phone: ")
-
-
-
-
+    users = getRegisteredUsers()
     while True:
-        search("Daniel", "Danphone")
+        search(users)
         time.sleep(30)
 
-def registeredUsers():
+
+def getRegisteredUsers():
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-
     try:
-        c.execute("SELECT name, mac_address FROM users")
+        c.execute("SELECT name, mac_address, device_name FROM users")
         registeredUsers = c.fetchall()
-        
+
         conn.commit()
         conn.close()
+
+        return registeredUsers
+
     except sqlite3.Error as e:
         print(e)
         conn.close()    
 
+        return None
 
+
+#check whether found devices match any registered in database
+def userMatch(mac_address, users):
+    for user in users:
+        mac_add = user[1]
+
+        if(mac_address == mac_add):
+            return user
+        else:
+            return None
+            
+
+#calibrate current temp
 def getCurrentTemp():
-    sense = SenseHat()
     cpu_temp = os.popen("vcgencmd measure_temp").readline()
     cpu_temp = cpu_temp.replace("temp=","")
     cpu_temp = float(cpu_temp.replace("'C\n",""))
@@ -46,20 +58,25 @@ def getCurrentTemp():
 
 
 # Search for device based on device's name
-def search(user_name, mac_address):
+def search(users):
     nearby_devices = bluetooth.discover_devices()
-
+    user = None
     for mac_address in nearby_devices:
-        print(mac_address)
-        if device_name == bluetooth.lookup_name(mac_address, timeout=5):
-            device_address = mac_address
+        user = userMatch(mac_address,users)
+        
+        if(user is not None):
             break
-    # if device_address is not None:
-    #     print("Hi {}! Your phone ({}) has the MAC address: {}".format(user_name, device_name, device_address))
-    #     temp = round(sense.get_temperature(), 1)
-    #     sense.show_message("Hi {}! Current Temp is {}*c".format(user_name, temp), scroll_speed=0.05)
-    # else:
-    #     print("Could not find target device nearby...")
+
+    if user is not None:
+        u_name = user[0]
+        u_device_name = user[2]
+        u_mac_address = user[1]
+
+        print("Hi {}! Your phone ({}) has the MAC address: {}".format(u_name, u_device_name, u_mac_address))
+        temp = getCurrentTemp()
+        sense.show_message("Hi {}! Current Temp is {}*c".format(u_name, temp), scroll_speed=0.05)
+    else:
+        print("No registered devices nearby...")
 
 
 #Execute program

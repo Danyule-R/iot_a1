@@ -54,7 +54,6 @@ def insertIntoDatabase(sqlite_file,data):
 def main():
 	data = get_sense_data()
 	if data is not None:
-		print("Added entry")
 		insertIntoDatabase(DB_NAME, data)
 
 main()
