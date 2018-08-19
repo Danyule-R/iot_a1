@@ -41,7 +41,6 @@ def insertIntoDatabase(sqlite_file,data):
 	press = data[2]
 	time = str(datetime.now())
 
-	
 	try:
 		c.execute("INSERT INTO data_entry(temp, humidity, pressure, time) VALUES(?,?,?,?)",(temp,humid,press,time))
 		conn.commit()
